@@ -13,6 +13,18 @@ servem somente o banco para desenvolvimento local.
 Todo o setup do banco (Compose + seed) que antes ficava no backend agora vive aqui.
 O `backend/` não tem mais `docker-compose.yml` nem `scripts/`.
 
+## Repositórios dependentes
+
+Este projeto orquestra os demais serviços do AuditorIA (builda as imagens a partir dos
+seus Dockerfiles e os conecta na rede):
+
+| Projeto | Repositório |
+|---|---|
+| API REST (backend) | `git@github.com:kellermanm0ta/auditor-ia-backend.git` |
+| Web app (frontend) | `git@github.com:kellermanm0ta/auditor-ia.git` |
+
+Clone-os no mesmo nível deste repo para a stack subir (o compose usa `../backend` e `../frontend`).
+
 ## Pré-requisitos
 
 - **Docker** 24+
