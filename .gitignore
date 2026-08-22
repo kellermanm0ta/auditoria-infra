@@ -1,0 +1,10 @@
+# Ambiente local (não versionar credenciais)
+.env
+
+# Logs
+*.log
+
+# Editor / SO
+.DS_Store
+.idea/
+.vscode/
