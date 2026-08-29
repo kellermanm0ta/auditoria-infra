@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS integrations (
 INSERT INTO integrations (name, icon, "desc", status, status_label, doc_url, steps, yaml) VALUES
 (
     'GitHub Actions',
-    'bi-github',
+    'bi bi-github',
     'Execute a análise automaticamente em cada push ou pull request.',
     'connected',
     'Conectado',
@@ -42,7 +42,7 @@ $yaml$
 ),
 (
     'GitLab CI',
-    'bi-gitlab',
+    'bi bi-gitlab',
     'Integre a análise nos pipelines do GitLab com um job customizado.',
     'disconnected',
     'Desconectado',
@@ -62,7 +62,7 @@ $yaml$
 ),
 (
     'Jenkins',
-    'bi-gear-wide-connected',
+    'bi bi-gear-wide-connected',
     'Adicione um stage no seu Jenkinsfile para auditar o código.',
     'disconnected',
     'Desconectado',
@@ -84,7 +84,7 @@ $yaml$
 ),
 (
     'Webhook Genérico',
-    'bi-webhook',
+    'bi bi-webhook',
     'Dispere análises de qualquer ferramenta via HTTP POST.',
     'connected',
     'Ativo',
@@ -102,7 +102,7 @@ $yaml$
 ),
 (
     'CLI (Linha de Comando)',
-    'bi-terminal',
+    'bi bi-terminal',
     'Execute análises diretamente do terminal em qualquer ambiente.',
     'connected',
     'Instalado',
@@ -117,7 +117,7 @@ $yaml$
 ),
 (
     'Slack',
-    'bi-slack',
+    'bi bi-slack',
     'Receba notificações no Slack quando uma análise for concluída.',
     'disconnected',
     'Desconectado',
