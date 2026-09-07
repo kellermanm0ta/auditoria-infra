@@ -139,6 +139,37 @@ padrão (`Dockerfile`) de cada uma.
 
 A URL fica em `backend/app/core/settings.py` — configuração via **env**, sem valores cravados.
 
+## Workflow de Agentes
+
+A tabela `workflow_agents` define a ordem de execução dos agentes de análise via auto-relacionamento:
+
+| Coluna | Tipo | Descrição |
+|--------|------|-----------|
+| `id` | `SERIAL PK` | Identificador único |
+| `nome` | `VARCHAR(255)` | Nome do agente |
+| `depende_de` | `INTEGER FK → workflow_agents(id)` | Agente pai (define ordem de execução) |
+
+Seed padrão (`scripts/init.sql`):
+
+| Agente | `depende_de` |
+|--------|-------------|
+| orquestrador | `NULL` (raiz) |
+| Análise de Arquitetura | orquestrador |
+| Code Smell | Análise de Arquitetura |
+| Análise de Desempenho | Code Smell |
+| Análise de Segurança | Análise de Desempenho |
+
+A execução segue a cadeia: **orquestrador → Arquitetura → Code Smell → Desempenho → Segurança**. A ordem de execução real é a topológica da DAG (raiz primeiro).
+
+Para consultar a cadeia:
+
+```sql
+SELECT a.id, a.nome AS agente, b.nome AS depende_de
+FROM workflow_agents a
+LEFT JOIN workflow_agents b ON a.depende_de = b.id
+ORDER BY a.id;
+```
+
 ## Configuração (`infra/.env`)
 
 | Variável | Padrão | Descrição |

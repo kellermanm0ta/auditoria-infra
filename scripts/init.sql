@@ -223,3 +223,39 @@ CREATE TABLE IF NOT EXISTS config (
 INSERT INTO config (id, execution_mode, output_format_id, skill_ids)
 VALUES (1, 'PARALELO', 1, '["seguranca","arquitetura","codesmell"]')
 ON CONFLICT (id) DO NOTHING;
+
+CREATE TABLE IF NOT EXISTS workflow_agents (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    depende_de INTEGER REFERENCES workflow_agents(id) ON DELETE SET NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+INSERT INTO workflow_agents (nome, depende_de)
+SELECT 'orquestrador', NULL
+WHERE NOT EXISTS (SELECT 1 FROM workflow_agents WHERE nome = 'orquestrador');
+
+INSERT INTO workflow_agents (nome, depende_de)
+SELECT 'Análise de Arquitetura', w.id
+FROM workflow_agents w
+WHERE w.nome = 'orquestrador'
+AND NOT EXISTS (SELECT 1 FROM workflow_agents WHERE nome = 'Análise de Arquitetura');
+
+INSERT INTO workflow_agents (nome, depende_de)
+SELECT 'Code Smell', w.id
+FROM workflow_agents w
+WHERE w.nome = 'Análise de Arquitetura'
+AND NOT EXISTS (SELECT 1 FROM workflow_agents WHERE nome = 'Code Smell');
+
+INSERT INTO workflow_agents (nome, depende_de)
+SELECT 'Análise de Desempenho', w.id
+FROM workflow_agents w
+WHERE w.nome = 'Code Smell'
+AND NOT EXISTS (SELECT 1 FROM workflow_agents WHERE nome = 'Análise de Desempenho');
+
+INSERT INTO workflow_agents (nome, depende_de)
+SELECT 'Análise de Segurança', w.id
+FROM workflow_agents w
+WHERE w.nome = 'Análise de Desempenho'
+AND NOT EXISTS (SELECT 1 FROM workflow_agents WHERE nome = 'Análise de Segurança');
